@@ -1,0 +1,13 @@
+[
+  {
+    "network": "besu",
+    "chainId": "1337",
+    "contractAddress": "0x42699A7612A82f1d9C36148af9C77354759b210b",
+    "deployer": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "initialValue": 42,
+    "blockNumber": 782,
+    "transactionHash": "0xb27e6e299c5cc8078f9acd609eea48af7d24d4452bd5cdb13504ff0f46688b84",
+    "gasUsed": "303383",
+    "timestamp": "2026-02-08T07:53:31.457Z"
+  }
+]

@@ -1,0 +1,183 @@
+services:
+  node-1:
+    image: ${BESU_IMAGE}
+    container_name: besu-node-1
+    hostname: node-1
+    networks:
+      besu-network:
+        ipv4_address: 172.25.0.2
+    ports:
+      - '8545:8545' # HTTP JSON-RPC
+      - '30303:30303' # P2P
+    volumes:
+      - ./nodes:/nodes
+    command:
+      # Data and Network
+      - --data-path=/nodes/node-1/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
+      - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-port=8545
+      - --rpc-http-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TXPOOL
+      - --rpc-http-max-active-connections=80
+      - --rpc-http-cors-origins=*
+      - --host-allowlist=*
+
+      # P2P Networking
+      - --p2p-enabled=true
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+
+      # WS-RPC
+      - --rpc-ws-enabled=true
+      - --rpc-ws-host=0.0.0.0
+      - --rpc-ws-port=8546
+      - --rpc-ws-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TRACE,TXPOOL
+      - --rpc-ws-max-active-connections=80
+      - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
+      - --min-gas-price=${MIN_GAS_PRICE}
+    restart: unless-stopped
+
+  node-2:
+    image: ${BESU_IMAGE}
+    container_name: besu-node-2
+    hostname: node-2
+    networks:
+      besu-network:
+        ipv4_address: 172.25.0.3
+    ports:
+      - '8546:8545' # HTTP JSON-RPC
+      - '30304:30303' # P2P
+    volumes:
+      - ./nodes:/nodes
+    depends_on:
+      - node-1
+    command:
+      # Data and Network
+      - --data-path=/nodes/node-2/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
+      - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-port=8545
+      - --rpc-http-api=ETH,NET,QBFT,WEB3,ADMIN
+      - --rpc-http-cors-origins=*
+      - --rpc-http-max-active-connections=80
+      - --host-allowlist=*
+
+      # P2P Networking
+      - --p2p-enabled=true
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+
+      # WS-RPC
+      - --rpc-ws-enabled=true
+      - --rpc-ws-host=0.0.0.0
+      - --rpc-ws-port=8546
+      - --rpc-ws-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TRACE,TXPOOL
+      - --rpc-ws-max-active-connections=80
+      - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
+      - --min-gas-price=${MIN_GAS_PRICE}
+    restart: unless-stopped
+
+  node-3:
+    image: ${BESU_IMAGE}
+    container_name: besu-node-3
+    hostname: node-3
+    networks:
+      besu-network:
+        ipv4_address: 172.25.0.4
+    ports:
+      - '8547:8545' # HTTP JSON-RPC
+      - '30305:30303' # P2P
+    volumes:
+      - ./nodes:/nodes
+    depends_on:
+      - node-1
+    command:
+      # Data and Network
+      - --data-path=/nodes/node-3/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
+      - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-port=8545
+      - --rpc-http-api=ETH,NET,QBFT,WEB3,ADMIN
+      - --rpc-http-max-active-connections=80
+      - --rpc-http-cors-origins=*
+      - --host-allowlist=*
+
+      # P2P Networking
+      - --p2p-enabled=true
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+
+      # WS-RPC
+      - --rpc-ws-enabled=true
+      - --rpc-ws-host=0.0.0.0
+      - --rpc-ws-port=8546
+      - --rpc-ws-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TRACE,TXPOOL
+      - --rpc-ws-max-active-connections=80
+      - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
+      - --min-gas-price=${MIN_GAS_PRICE}
+    restart: unless-stopped
+
+  node-4:
+    image: ${BESU_IMAGE}
+    container_name: besu-node-4
+    hostname: node-4
+    networks:
+      besu-network:
+        ipv4_address: 172.25.0.5
+    ports:
+      - '854  8:8545' # HTTP JSON-RPC
+      - '30306:30303' # P2P
+    volumes:
+      - ./nodes:/nodes
+    depends_on:
+      - node-1
+    command:
+      # Data and Network
+      - --data-path=/nodes/node-4/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
+      - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC (RPC Node - no ADMIN/QBFT APIs for security)
+      - --rpc-http-enabled
+      - --rpc-http-host=0.0.0.0
+      - --rpc-http-port=8545
+      - --rpc-http-api=ETH,NET,WEB3,DEBUG,TRACE,TXPOOL
+      - --rpc-http-max-active-connections=80
+      - --rpc-http-cors-origins=*
+      - --host-allowlist=*
+
+      # P2P Networking
+      - --p2p-enabled=true
+      - --p2p-host=0.0.0.0
+      - --p2p-port=30303
+      - --rpc-ws-enabled=true
+      - --rpc-ws-host=0.0.0.0
+      - --rpc-ws-port=8546
+      - --rpc-ws-api=ETH,NET,WEB3,DEBUG,TRACE,TXPOOL
+      - --rpc-ws-max-active-connections=80
+      - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
+      - --min-gas-price=${MIN_GAS_PRICE}
+    restart: unless-stopped
+
+networks:
+  besu-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16

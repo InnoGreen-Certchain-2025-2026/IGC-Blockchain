@@ -1,0 +1,16 @@
+[
+  {
+    "contractName": "CertificateRegistry",
+    "contractAddress": "0x2E1f232a9439C3D459FcEca0BeEf13acc8259Dd8",
+    "network": "besu",
+    "chainId": "1337",
+    "deployer": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "issuerName": "Trường Đại học Công nghiệp thành phố Hồ Chí Minh",
+    "admin": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73",
+    "blockNumber": 1650,
+    "transactionHash": "0x0d935f702194e7d9cf9ad67c8cf1564e57da05bc6da4322bb6e74566fe54eb09",
+    "gasUsed": "1366474",
+    "gasPrice": "1000000000",
+    "timestamp": "2026-02-08T08:22:27.365Z"
+  }
+]
