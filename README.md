@@ -2,6 +2,10 @@
 
 Private blockchain network using Hyperledger Besu (QBFT) with 4 nodes, plus a `smart-contracts` workspace for deploying and testing contracts.
 
+## Documentation
+
+Beginner-friendly docs (Vietnamese): `docs/README.md`
+
 ## Project Structure
 
 ```text
