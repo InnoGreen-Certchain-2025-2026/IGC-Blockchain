@@ -32,12 +32,11 @@ IGC-Blockchain/
 |   |-- scripts/
 |   `-- test/
 |-- docs/
-|   |-- 00-jargon.md
-|   |-- 01-gioi-thieu.md
+|   |-- 01-jargon.md
 |   |-- 02-besu-chi-tiet.md
-|   |-- 03-khoi-dong-mang.md
-|   |-- 04-smart-contracts.md
-|   |-- 05-khai-niem-co-ban.md
+|   |-- 03-khai-niem-co-ban.md
+|   |-- 04-khoi-dong-mang.md
+|   |-- 05-smart-contracts.md
 |   `-- 06-faq-troubleshooting.md
 |-- docker-compose.yml
 |-- start.bat
@@ -65,5 +64,5 @@ Lưu ý: app ngoài không gọi lệnh "tạo block"; app chỉ gửi transacti
 ## Tài liệu cho người mới
 
 - `docs/README.md`: lộ trình đọc
-- `docs/00-jargon.md`: từ điển thuật ngữ
+- `docs/01-jargon.md`: từ điển thuật ngữ
 - `docs/02-besu-chi-tiet.md`: Besu chi tiết

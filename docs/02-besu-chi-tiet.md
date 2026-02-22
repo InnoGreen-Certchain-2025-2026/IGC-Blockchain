@@ -1,6 +1,6 @@
 # 02. Hyperledger Besu chi tiết (dành cho người mới)
 
-Nếu gặp thuật ngữ lạ, xem nhanh: `docs/00-jargon.md`.
+Nếu gặp thuật ngữ lạ, xem nhanh: `docs/01-jargon.md`.
 
 ## Besu là gì?
 
