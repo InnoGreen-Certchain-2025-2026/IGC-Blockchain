@@ -140,7 +140,7 @@ services:
       besu-network:
         ipv4_address: 172.25.0.5
     ports:
-      - '854  8:8545' # HTTP JSON-RPC
+      - '8548:8545' # HTTP JSON-RPC
       - '30306:30303' # P2P
     volumes:
       - ./nodes:/nodes

@@ -1,17 +1,93 @@
-node_modules
+# ====================
+# Environment
+# ====================
 .env
+.env.*
+*.local
 
-# Hardhat files
-/cache
-/artifacts
+# ====================
+# Node / JS dependencies
+# ====================
+node_modules/
+nodes/
 
-# TypeChain files
-/typechain
-/typechain-types
+# ====================
+# Hardhat / Solidity build output
+# ====================
+cache/
+artifacts/
+typechain/
+typechain-types/
+coverage/
+coverage.json
+ignition/deployments/
 
-# solidity-coverage files
-/coverage
-/coverage.json
+# ====================
+# Logs
+# ====================
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
 
-# Hardhat Ignition default folder for deployments against a local node
-ignition/deployments/chain-31337
+# ====================
+# Build output (Node.js, Frontend)
+# ====================
+dist/
+dist-ssr/
+build/
+out/
+
+# ====================
+# IntelliJ IDEA
+# ====================
+.idea/
+*.iml
+*.iws
+
+# ====================
+# Build output (Java/Maven)
+# ====================
+target/
+*.class
+
+# ====================
+# Blockchain / Besu data
+# ====================
+nodes/node-*/data/
+nodes/networkFiles/
+
+# ====================
+# Ignore properties file
+# ====================
+src/main/resources/application-dev.properties
+src/main/resources/application-prod.properties
+src/main/resources/application-cloud.properties
+src/main/resources/application-dev.yml
+src/main/resources/application-prod.yml
+src/main/resources/application-cloud.yml
+
+# ====================
+# Editor directories and files
+# ====================
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# ====================
+# OS generated files
+# ====================
+Thumbs.db
+Desktop.ini
+
+
+
