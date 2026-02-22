@@ -1,26 +1,15 @@
-# 01. Giới thiệu dự án
+# 01. Giới thiệu (đã chuyển lên README)
 
-## Dự án này là gì?
+Nội dung giới thiệu tổng quan và cấu trúc dự án đã được chuyển lên:
 
-Đây là một mạng blockchain private chạy bằng Hyperledger Besu theo cơ chế đồng thuận QBFT.
+- `README.md`
 
-Mạng gồm 4 node:
+Lý do:
 
-- Node 1: Validator
-- Node 2: Validator
-- Node 3: Validator
-- Node 4: RPC node (để ứng dụng gọi API)
+- Người mới vào repo sẽ thấy ngay tổng quan ở root.
+- Tránh trùng lặp nội dung giữa root docs và thư mục `docs/`.
 
-## Dự án dùng để làm gì?
+Tiếp theo nên đọc:
 
-- Dựng môi trường blockchain local để học và phát triển
-- Deploy smart contract để test nghiệp vụ
-- Mô phỏng hạ tầng blockchain nội bộ doanh nghiệp
-
-## Thành phần chính
-
-- `docker-compose.yml`: khởi tạo 4 container Besu
-- `scripts/generate-network.sh`: sinh genesis và key cho node
-- `scripts/network-status.sh`: kiểm tra trạng thái mạng
-- `start.bat`: menu thao tác nhanh trên Windows
-- `smart-contracts/`: code smart contract (Hardhat)
+1. `docs/00-jargon.md`
+2. `docs/02-besu-chi-tiet.md`

@@ -1,12 +1,24 @@
 # IGC Blockchain
 
-Private blockchain network using Hyperledger Besu (QBFT) with 4 nodes, plus a `smart-contracts` workspace for deploying and testing contracts.
+## Mục tiêu dự án
 
-## Documentation
+Dự án này cung cấp một mạng blockchain private (mạng nội bộ, có kiểm soát thành viên) chạy local bằng Hyperledger Besu theo cơ chế QBFT.
 
-Beginner-friendly docs (Vietnamese): `docs/README.md`
+Dùng để:
 
-## Project Structure
+- Học cách vận hành blockchain permissioned (mạng chỉ node được cấp quyền mới tham gia)
+- Làm môi trường dev/test cho backend web3
+- Deploy và kiểm thử smart contract trước khi đưa lên môi trường cao hơn
+
+## Bức tranh tổng thể
+
+Hệ thống có 3 lớp:
+
+- Lớp hạ tầng blockchain: 4 node Besu chạy bằng Docker Compose
+- Lớp smart contract: thư mục `smart-contracts/` dùng Hardhat
+- Lớp ứng dụng ngoài: backend/web/mobile gọi JSON-RPC vào Besu
+
+## Cấu trúc thư mục chính
 
 ```text
 IGC-Blockchain/
@@ -19,113 +31,39 @@ IGC-Blockchain/
 |   |-- contracts/
 |   |-- scripts/
 |   `-- test/
+|-- docs/
+|   |-- 00-jargon.md
+|   |-- 01-gioi-thieu.md
+|   |-- 02-besu-chi-tiet.md
+|   |-- 03-khoi-dong-mang.md
+|   |-- 04-smart-contracts.md
+|   |-- 05-khai-niem-co-ban.md
+|   `-- 06-faq-troubleshooting.md
 |-- docker-compose.yml
-`-- start.bat
+|-- start.bat
+`-- .env
 ```
 
-## Requirements
+## Vai trò từng phần
 
-- Docker Desktop (Docker Compose enabled)
-- Windows PowerShell / CMD
-- Git Bash or WSL (required for shell scripts in `scripts/`)
-- Node.js + npm (for `smart-contracts/`)
+- `config/qbftConfigFile.json`: thông số genesis (file khởi tạo chain) cho QBFT.
+- `scripts/generate-network.sh`: sinh network files + key cho node.
+- `docker-compose.yml`: chạy 4 node Besu, map cổng RPC/P2P.
+- `scripts/network-status.sh`: kiểm tra block height, peer, block production.
+- `start.bat`: menu thao tác nhanh trên Windows.
+- `smart-contracts/`: code Solidity, test/deploy bằng Hardhat.
 
-## Quick Start (Windows)
+## Luồng dữ liệu mức cao
 
-1. Open terminal in project root.
-2. Configure environment (already has default values):
+1. App ngoài gửi transaction qua RPC (thường vào node-4).
+2. Node nhận tx, phát tán qua P2P (giao tiếp node với node).
+3. Validator chạy QBFT để đồng thuận.
+4. Block mới được tạo và đồng bộ sang các node khác.
 
-```env
-BESU_IMAGE=hyperledger/besu:latest
-NETWORK_ID=1337
-MIN_GAS_PRICE=0
-```
+Lưu ý: app ngoài không gọi lệnh "tạo block"; app chỉ gửi transaction. Việc đóng block thuộc consensus (đồng thuận) của validator.
 
-3. Run:
+## Tài liệu cho người mới
 
-```bat
-start.bat
-```
-
-4. Use menu:
-- `1` Reset network (regenerate genesis and node keys)
-- `2` Start nodes
-- `3` Stop nodes
-- `4` Check network status
-
-## CLI Usage (without menu)
-
-Generate network files:
-
-```bash
-bash scripts/generate-network.sh
-```
-
-Start nodes:
-
-```bash
-docker compose up -d
-```
-
-Check status:
-
-```bash
-bash scripts/network-status.sh
-```
-
-Stop nodes:
-
-```bash
-docker compose down
-```
-
-## Node Endpoints
-
-- Node 1 (Validator): `http://localhost:8545`
-- Node 2 (Validator): `http://localhost:8546`
-- Node 3 (Validator): `http://localhost:8547`
-- Node 4 (RPC Node): `http://localhost:8548`
-
-P2P ports: `30303`, `30304`, `30305`, `30306`
-
-## Smart Contracts
-
-`smart-contracts/` contains Hardhat setup and contract sources.
-
-Install deps:
-
-```bash
-cd smart-contracts
-npm install
-```
-
-Run tests:
-
-```bash
-npx hardhat test
-```
-
-Compile:
-
-```bash
-npx hardhat compile
-```
-
-Files included:
-- `contracts/SimpleStorage.sol`
-- `contracts/CertificateRegistry.sol`
-- `test/CertificateRegistry.test.js`
-- `scripts/deploy.js`
-- `scripts/interact.js`
-
-## Notes
-
-- Folder `nodes/` is generated when running reset/generate scripts.
-- `scripts/network-status.sh` checks block height and peer connectivity.
-- If Bash is missing, options `1` and `4` in `start.bat` will not run.
-
-## Troubleshooting
-
-- Docker not running: start Docker Desktop, then retry.
-- `bash` not found: install Git Bash or use WSL.
-- Port conflict (`8545-8548` / `30303-30306`): stop conflicting services or adjust port mapping in `docker-compose.yml`.
+- `docs/README.md`: lộ trình đọc
+- `docs/00-jargon.md`: từ điển thuật ngữ
+- `docs/02-besu-chi-tiet.md`: Besu chi tiết
