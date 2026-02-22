@@ -1,4 +1,4 @@
-# 06. FAQ và Troubleshooting
+# 07. FAQ và Troubleshooting
 
 ## 1) Bấm reset/status trong `start.bat` nhưng không chạy
 

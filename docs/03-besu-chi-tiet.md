@@ -1,4 +1,4 @@
-# 02. Hyperledger Besu chi tiết (dành cho người mới)
+# 03. Hyperledger Besu chi tiết (dành cho người mới)
 
 Nếu gặp thuật ngữ lạ, xem nhanh: `docs/01-jargon.md`.
 
