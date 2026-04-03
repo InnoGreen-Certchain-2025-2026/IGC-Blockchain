@@ -6,6 +6,8 @@ Consolidated project documentation (no separate `docs/` folder).
 
 This is a local private blockchain network built with Hyperledger Besu (QBFT), running 4 nodes.
 
+Dokploy deployment guide: [`DOKPLOY.md`](./DOKPLOY.md)
+
 Goals:
 
 - Provide an internal blockchain environment for development/testing
@@ -165,6 +167,25 @@ docker compose up -d
 bash scripts/network-status.sh
 docker compose down
 ```
+
+### 10.1.1 Dokploy
+
+Use [`docker-compose.dokploy.yml`](./docker-compose.dokploy.yml) for Dokploy instead of the local [`docker-compose.yml`](./docker-compose.yml).
+
+Why:
+
+- the local compose file expects host-generated `nodes/` content
+- `nodes/` is gitignored, so Dokploy won't receive that state from Git
+- the Dokploy compose file generates network config inside Docker volumes on first deploy
+- chain data is persisted in named volumes, so redeploys do not wipe the network
+
+Dokploy notes:
+
+- create a Docker Compose application from this repository
+- set the compose path to `docker-compose.dokploy.yml`
+- provide the same environment variables as [`.env.dokploy.example`](./.env.dokploy.example)
+- expose only the ports you actually need publicly, especially `8548`
+- do not use "reset volumes" unless you intentionally want a brand new chain
 
 ### 10.2 Smart contracts
 
