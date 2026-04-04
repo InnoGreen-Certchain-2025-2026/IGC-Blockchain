@@ -9,9 +9,9 @@ Use [`docker-compose.dokploy.yml`](./docker-compose.dokploy.yml), not the local 
 Prepare these values in Dokploy:
 
 ```env
-BESU_IMAGE=hyperledger/besu:latest
-NETWORK_ID=1337
-MIN_GAS_PRICE=0
+BESU_IMAGE=
+NETWORK_ID=
+MIN_GAS_PRICE=
 ```
 
 You can copy them from [`.env.dokploy.example`](./.env.dokploy.example).
