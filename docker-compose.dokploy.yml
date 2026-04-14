@@ -1,39 +1,23 @@
 services:
-  network-init:
-    image: ${BESU_IMAGE}
-    volumes:
-      - ./config/qbftConfigFile.json:/config/qbftConfigFile.json:ro
-      - ./scripts/init-network.sh:/opt/igc/init-network.sh:ro
-      - besu-network-config:/network
-    entrypoint:
-      - /bin/sh
-      - /opt/igc/init-network.sh
-    restart: "no"
-
   node-1:
     image: ${BESU_IMAGE}
+    container_name: besu-node-1
     hostname: node-1
     networks:
       besu-network:
         ipv4_address: 172.25.0.2
     ports:
-      - '8545:8545'
-      - '30303:30303'
+      - "8545:8545" # HTTP JSON-RPC
+      - "30303:30303" # P2P
     volumes:
-      - ./scripts/besu-entrypoint.sh:/opt/igc/besu-entrypoint.sh:ro
-      - besu-network-config:/network:ro
-      - besu-node-1-data:/data
-    depends_on:
-      network-init:
-        condition: service_completed_successfully
-    entrypoint:
-      - /bin/sh
-      - /opt/igc/besu-entrypoint.sh
+      - ./nodes:/nodes
     command:
-      - --data-path=/data
-      - --genesis-file=/network/networkFiles/genesis.json
-      - --node-private-key-file=/network/node-1/config/key
+      # Data and Network
+      - --data-path=/nodes/node-1/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
       - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC
       - --rpc-http-enabled
       - --rpc-http-host=0.0.0.0
       - --rpc-http-port=8545
@@ -41,44 +25,44 @@ services:
       - --rpc-http-max-active-connections=80
       - --rpc-http-cors-origins=*
       - --host-allowlist=*
+
+      # P2P Networking
       - --p2p-enabled=true
       - --p2p-host=0.0.0.0
       - --p2p-port=30303
+
+      # WS-RPC
       - --rpc-ws-enabled=true
       - --rpc-ws-host=0.0.0.0
       - --rpc-ws-port=8546
       - --rpc-ws-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TRACE,TXPOOL
       - --rpc-ws-max-active-connections=80
       - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
       - --min-gas-price=${MIN_GAS_PRICE}
     restart: unless-stopped
 
   node-2:
     image: ${BESU_IMAGE}
+    container_name: besu-node-2
     hostname: node-2
     networks:
       besu-network:
         ipv4_address: 172.25.0.3
     ports:
-      - '8546:8545'
-      - '30304:30303'
+      - "8546:8545" # HTTP JSON-RPC
+      - "30304:30303" # P2P
     volumes:
-      - ./scripts/besu-entrypoint.sh:/opt/igc/besu-entrypoint.sh:ro
-      - besu-network-config:/network:ro
-      - besu-node-2-data:/data
+      - ./nodes:/nodes
     depends_on:
-      network-init:
-        condition: service_completed_successfully
-      node-1:
-        condition: service_started
-    entrypoint:
-      - /bin/sh
-      - /opt/igc/besu-entrypoint.sh
+      - node-1
     command:
-      - --data-path=/data
-      - --genesis-file=/network/networkFiles/genesis.json
-      - --node-private-key-file=/network/node-2/config/key
+      # Data and Network
+      - --data-path=/nodes/node-2/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
       - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC
       - --rpc-http-enabled
       - --rpc-http-host=0.0.0.0
       - --rpc-http-port=8545
@@ -86,44 +70,44 @@ services:
       - --rpc-http-cors-origins=*
       - --rpc-http-max-active-connections=80
       - --host-allowlist=*
+
+      # P2P Networking
       - --p2p-enabled=true
       - --p2p-host=0.0.0.0
       - --p2p-port=30303
+
+      # WS-RPC
       - --rpc-ws-enabled=true
       - --rpc-ws-host=0.0.0.0
       - --rpc-ws-port=8546
       - --rpc-ws-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TRACE,TXPOOL
       - --rpc-ws-max-active-connections=80
       - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
       - --min-gas-price=${MIN_GAS_PRICE}
     restart: unless-stopped
 
   node-3:
     image: ${BESU_IMAGE}
+    container_name: besu-node-3
     hostname: node-3
     networks:
       besu-network:
         ipv4_address: 172.25.0.4
     ports:
-      - '8547:8545'
-      - '30305:30303'
+      - "8547:8545" # HTTP JSON-RPC
+      - "30305:30303" # P2P
     volumes:
-      - ./scripts/besu-entrypoint.sh:/opt/igc/besu-entrypoint.sh:ro
-      - besu-network-config:/network:ro
-      - besu-node-3-data:/data
+      - ./nodes:/nodes
     depends_on:
-      network-init:
-        condition: service_completed_successfully
-      node-1:
-        condition: service_started
-    entrypoint:
-      - /bin/sh
-      - /opt/igc/besu-entrypoint.sh
+      - node-1
     command:
-      - --data-path=/data
-      - --genesis-file=/network/networkFiles/genesis.json
-      - --node-private-key-file=/network/node-3/config/key
+      # Data and Network
+      - --data-path=/nodes/node-3/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
       - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC
       - --rpc-http-enabled
       - --rpc-http-host=0.0.0.0
       - --rpc-http-port=8545
@@ -131,44 +115,43 @@ services:
       - --rpc-http-max-active-connections=80
       - --rpc-http-cors-origins=*
       - --host-allowlist=*
+
+      # P2P Networking
       - --p2p-enabled=true
       - --p2p-host=0.0.0.0
       - --p2p-port=30303
+
+      # WS-RPC
       - --rpc-ws-enabled=true
       - --rpc-ws-host=0.0.0.0
       - --rpc-ws-port=8546
       - --rpc-ws-api=ETH,NET,QBFT,WEB3,ADMIN,DEBUG,TRACE,TXPOOL
       - --rpc-ws-max-active-connections=80
       - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
       - --min-gas-price=${MIN_GAS_PRICE}
     restart: unless-stopped
 
   node-4:
     image: ${BESU_IMAGE}
+    container_name: besu-node-4
     hostname: node-4
     networks:
       besu-network:
         ipv4_address: 172.25.0.5
     ports:
-      - '8548:8545'
-      - '30306:30303'
+      - "127.0.0.1:30306:30303" # P2P (loopback only)
     volumes:
-      - ./scripts/besu-entrypoint.sh:/opt/igc/besu-entrypoint.sh:ro
-      - besu-network-config:/network:ro
-      - besu-node-4-data:/data
+      - ./nodes:/nodes
     depends_on:
-      network-init:
-        condition: service_completed_successfully
-      node-1:
-        condition: service_started
-    entrypoint:
-      - /bin/sh
-      - /opt/igc/besu-entrypoint.sh
+      - node-1
     command:
-      - --data-path=/data
-      - --genesis-file=/network/networkFiles/genesis.json
-      - --node-private-key-file=/network/node-4/config/key
+      # Data and Network
+      - --data-path=/nodes/node-4/data
+      - --genesis-file=/nodes/networkFiles/genesis.json
       - --network-id=${NETWORK_ID}
+
+      # HTTP JSON-RPC (RPC Node - no ADMIN/QBFT APIs for security)
       - --rpc-http-enabled
       - --rpc-http-host=0.0.0.0
       - --rpc-http-port=8545
@@ -176,6 +159,8 @@ services:
       - --rpc-http-max-active-connections=80
       - --rpc-http-cors-origins=*
       - --host-allowlist=*
+
+      # P2P Networking
       - --p2p-enabled=true
       - --p2p-host=0.0.0.0
       - --p2p-port=30303
@@ -185,8 +170,22 @@ services:
       - --rpc-ws-api=ETH,NET,WEB3,DEBUG,TRACE,TXPOOL
       - --rpc-ws-max-active-connections=80
       - --data-storage-format=BONSAI
+      - --bootnodes=enode://$(cat /nodes/node-1/data/key.pub | sed 's/^0x//')@172.25.0.2:30303,enode://$(cat /nodes/node-2/data/key.pub | sed 's/^0x//')@172.25.0.3:30303,enode://$(cat /nodes/node-3/data/key.pub | sed 's/^0x//')@172.25.0.4:30303,enode://$(cat /nodes/node-4/data/key.pub | sed 's/^0x//')@172.25.0.5:30303
       - --min-gas-price=${MIN_GAS_PRICE}
     restart: unless-stopped
+
+  rpc-proxy:
+    image: nginx:1.27-alpine
+    container_name: besu-rpc-proxy
+    depends_on:
+      - node-4
+    networks:
+      - besu-network
+    ports:
+      - "8548:8548"
+    volumes:
+      - ./config/nginx-rpc.conf.template:/etc/nginx/templates/default.conf.template:ro
+    command: /bin/sh -c "sed 's|__X_HEADER_SECRET__|${X_HEADER_SECRET}|g' /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
 
 networks:
   besu-network:
@@ -194,10 +193,3 @@ networks:
     ipam:
       config:
         - subnet: 172.25.0.0/16
-
-volumes:
-  besu-network-config:
-  besu-node-1-data:
-  besu-node-2-data:
-  besu-node-3-data:
-  besu-node-4-data:
