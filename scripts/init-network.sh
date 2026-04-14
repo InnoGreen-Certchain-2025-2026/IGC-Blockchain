@@ -44,8 +44,8 @@ for KEY_DIR in "$KEYS_DIR"/*; do
   chmod 600 "$NODE_DIR/key"
 
   PUBKEY="$(sed 's/^0x//' "$NODE_DIR/key.pub")"
-  NODE_HOST="node-$NODE_INDEX"
-  ENODE="enode://${PUBKEY}@${NODE_HOST}:30303"
+  NODE_IP="172.25.0.$((NODE_INDEX + 1))"
+  ENODE="enode://${PUBKEY}@${NODE_IP}:30303"
   if [ -z "$BOOTNODES" ]; then
     BOOTNODES="$ENODE"
   else
