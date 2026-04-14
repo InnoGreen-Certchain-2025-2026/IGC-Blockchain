@@ -1,5 +1,5 @@
 {
-  "address": "0x2E1f232a9439C3D459FcEca0BeEf13acc8259Dd8",
+  "address": "0x42699A7612A82f1d9C36148af9C77354759b210b",
   "abi": [
     {
       "inputs": [
@@ -387,5 +387,9 @@
   "chainId": "1337",
   "rpcUrl": "https://blockchain.igcert.click",
   "issuerName": "Trường Đại học Công nghiệp thành phố Hồ Chí Minh",
+<<<<<<< HEAD
   "deployedAt": "2026-04-04T12:23:38.753Z"
+=======
+  "deployedAt": "2026-02-22T08:10:52.840Z"
+>>>>>>> a48bc0631c9c723e63ca625b0647d11dade04294
 }
