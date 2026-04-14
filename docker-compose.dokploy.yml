@@ -2,20 +2,21 @@ services:
   init-network:
     image: ${BESU_IMAGE}
     container_name: besu-init-network
+    entrypoint: ["/bin/sh", "/scripts/init-network.sh"]
+    restart: "no"
     networks:
       - besu-network
     volumes:
       - besu-network-data:/network
       - ./config:/config:ro
       - ./scripts:/scripts:ro
-    command: /bin/sh /scripts/init-network.sh
-
   node-1:
     image: ${BESU_IMAGE}
     container_name: besu-node-1
     hostname: node-1
     depends_on:
-      - init-network
+      init-network:
+        condition: service_completed_successfully
     networks:
       - besu-network
     volumes:
@@ -57,7 +58,8 @@ services:
     container_name: besu-node-2
     hostname: node-2
     depends_on:
-      - init-network
+      init-network:
+        condition: service_completed_successfully
     networks:
       - besu-network
     volumes:
@@ -99,7 +101,8 @@ services:
     container_name: besu-node-3
     hostname: node-3
     depends_on:
-      - init-network
+      init-network:
+        condition: service_completed_successfully
     networks:
       - besu-network
     volumes:
@@ -141,7 +144,8 @@ services:
     container_name: besu-node-4
     hostname: node-4
     depends_on:
-      - init-network
+      init-network:
+        condition: service_completed_successfully
     networks:
       - besu-network
     volumes:
