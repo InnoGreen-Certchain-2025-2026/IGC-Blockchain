@@ -17,8 +17,7 @@ services:
     depends_on:
       - init-network
     networks:
-      besu-network:
-        ipv4_address: 172.25.0.2
+      - besu-network
     volumes:
       - besu-network-data:/network
       - ./scripts:/scripts:ro
@@ -60,8 +59,7 @@ services:
     depends_on:
       - init-network
     networks:
-      besu-network:
-        ipv4_address: 172.25.0.3
+      - besu-network
     volumes:
       - besu-network-data:/network
       - ./scripts:/scripts:ro
@@ -103,8 +101,7 @@ services:
     depends_on:
       - init-network
     networks:
-      besu-network:
-        ipv4_address: 172.25.0.4
+      - besu-network
     volumes:
       - besu-network-data:/network
       - ./scripts:/scripts:ro
@@ -146,8 +143,7 @@ services:
     depends_on:
       - init-network
     networks:
-      besu-network:
-        ipv4_address: 172.25.0.5
+      - besu-network
     volumes:
       - besu-network-data:/network
       - ./scripts:/scripts:ro
@@ -192,9 +188,6 @@ services:
 networks:
   besu-network:
     driver: bridge
-    ipam:
-      config:
-        - subnet: 172.25.0.0/16
 
 volumes:
   besu-network-data:
