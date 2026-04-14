@@ -3,6 +3,13 @@ set -eu
 
 BOOTNODES_FILE="${BOOTNODES_FILE:-/network/bootnodes.txt}"
 
+for _ in $(seq 1 60); do
+  if [ -f "$BOOTNODES_FILE" ]; then
+    break
+  fi
+  sleep 1
+done
+
 if [ ! -f "$BOOTNODES_FILE" ]; then
   echo "Missing bootnodes file: $BOOTNODES_FILE" >&2
   exit 1

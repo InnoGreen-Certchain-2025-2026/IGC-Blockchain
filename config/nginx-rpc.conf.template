@@ -6,7 +6,7 @@ server {
   location / {
     limit_except POST { deny all; }
 
-    if ($http_x_header_secret != '__X_HEADER_SECRET__') {
+    if ($http_x_header_secret != '${X_HEADER_SECRET}') {
       return 401;
     }
 
