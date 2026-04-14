@@ -1,6 +1,11 @@
 {
   "name": "smart-contracts",
   "version": "1.0.0",
+  "scripts": {
+    "compile": "hardhat compile",
+    "deploy:besu": "hardhat run scripts/deploy.js --network besu",
+    "interact:besu": "hardhat run scripts/interact.js --network besu"
+  },
   "devDependencies": {
     "@nomicfoundation/hardhat-chai-matchers": "^2.1.0",
     "@nomicfoundation/hardhat-ethers": "^3.1.3",
@@ -19,6 +24,7 @@
     "typechain": "^8.3.2"
   },
   "dependencies": {
+    "dotenv": "^16.6.1",
     "web3": "^4.16.0"
   }
 }

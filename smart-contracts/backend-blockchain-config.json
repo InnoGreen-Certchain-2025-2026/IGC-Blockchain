@@ -1,0 +1,9 @@
+{
+  "blockchain": {
+    "rpcUrl": "https://blockchain.igcert.click",
+    "chainId": "1337",
+    "contractAddress": "0x2E1f232a9439C3D459FcEca0BeEf13acc8259Dd8",
+    "issuerName": "Trường Đại học Công nghiệp thành phố Hồ Chí Minh",
+    "deployer": "0xFE3B557E8Fb62b89F4916B721be55cEb828dBd73"
+  }
+}

@@ -383,6 +383,9 @@
       "type": "function"
     }
   ],
+  "network": "besu",
+  "chainId": "1337",
+  "rpcUrl": "https://blockchain.igcert.click",
   "issuerName": "Trường Đại học Công nghiệp thành phố Hồ Chí Minh",
-  "deployedAt": "2026-02-08T08:22:27.368Z"
+  "deployedAt": "2026-04-04T12:23:38.753Z"
 }
